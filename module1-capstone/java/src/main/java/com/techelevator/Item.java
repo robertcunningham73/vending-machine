@@ -2,31 +2,34 @@ package com.techelevator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Item {
 
     //scan inventory sheet
 
-    static File inventoryFile = new File("vendingmachine.csv");
+    private static File inventoryFile = new File("vendingmachine.csv");
 
-    String slotLocation;
-    String productName;
-    BigDecimal price;
-    String productType;
+    public static Map<String, String> itemLocation = new HashMap<>();
+    public static Map<String, String> itemName = new HashMap<>();
+    public static Map<String, String> itemPrice = new HashMap<>();
+    public static Map<String, String> itemType = new HashMap<>();
+    public static Map<String, Integer> itemStock = new HashMap<String, Integer>();
 
-    static String [] productArray = new String[4];
+    public static String [] itemArray = new String[4];
 
     public static void scanFile() {
-
         try (Scanner inventoryScanner = new Scanner(inventoryFile)) {
             while (inventoryScanner.hasNextLine()) {
-
-                String lineToSearch = inventoryScanner.nextLine();
-
-                productArray = lineToSearch.split("\\|");
-
+                String itemLine = inventoryScanner.nextLine();
+                itemArray = itemLine.split("\\|");
+                itemLocation.put(itemArray[0], itemLine);
+                itemName.put(itemArray[0], itemArray[1]);
+                itemPrice.put(itemArray[0], itemArray[2]);
+                itemType.put(itemArray[0], itemArray[3]);
+                itemStock.put(itemArray[0], 5);
             }
         } catch (FileNotFoundException fnfE) {
             System.out.println("File not found.");

@@ -2,6 +2,10 @@ package com.techelevator;
 
 import com.techelevator.view.Menu;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class VendingMachineCLI {
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
@@ -9,6 +13,7 @@ public class VendingMachineCLI {
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE };
 
 	private Menu menu;
+	private Object Scanner;
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
@@ -22,6 +27,15 @@ public class VendingMachineCLI {
 				// display vending machine items
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
+			}
+		}
+	}
+	//TODO figure out remaining inventory
+	public void displayVendingMachineOptions() throws FileNotFoundException {
+		File inventoryFile = new File("vendingmachine.csv");
+		try (java.util.Scanner inventoryScanner = new Scanner(inventoryFile)) {
+			while (inventoryScanner.hasNextLine()) {
+				String lineToSearch = inventoryScanner.nextLine();
 			}
 		}
 	}
