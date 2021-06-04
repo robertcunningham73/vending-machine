@@ -4,6 +4,8 @@ import com.techelevator.view.Menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -82,8 +84,6 @@ public class VendingMachineCLI {
 
 			userSelection = userPurchaseScanner.nextLine();
 			Transaction.purchaseItem();
-
-
 		}
 	}
 
@@ -96,7 +96,9 @@ public class VendingMachineCLI {
 				if (Item.itemQuantity == 0) {
 					System.out.println(lineToSearch + "|" + "SOLD OUT");
 				} else {
-					System.out.println(lineToSearch + "|" + Item.itemQuantity);
+					//System.out.println(lineToSearch + "|" + Item.itemQuantity);
+				  String codeToSearch = lineToSearch.substring(0, 2);
+				  System.out.println(lineToSearch + "|" + Item.itemStock.get(codeToSearch));
 				}
 			}
 		}
