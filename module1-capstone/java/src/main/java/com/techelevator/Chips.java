@@ -1,8 +1,8 @@
 package com.techelevator;
 
-public class Chips {
+public class Chips extends Item{
 
-    public void getProductMessage() {
+    public static void getProductMessage() {
         System.out.println("Crunch Crunch, Yum!");
     }
 }

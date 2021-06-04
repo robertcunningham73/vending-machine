@@ -1,8 +1,8 @@
 package com.techelevator;
 
-public class Candy {
+public class Candy extends Item{
 
-    public void getProductMessage() {
+    public static void getProductMessage() {
         System.out.println("Munch Munch, Yum!");
     }
 }

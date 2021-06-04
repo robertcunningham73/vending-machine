@@ -1,9 +1,8 @@
 package com.techelevator;
 
-public class Beverage {
+public class Beverage extends Item{
 
-    public void getProductMessage() {
-        System.out.println("Glug Glug, Yum!");
+    public static void getProductMessage(String keyScanner) { System.out.println("Glug Glug, Yum!");
     }
 
 }

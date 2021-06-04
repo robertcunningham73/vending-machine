@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -115,14 +116,34 @@ public class Transaction {
 
         System.out.println("Change dispensed: " + changeToDispense);
 
-        writeToLog("GIVE CHANGE", balance, balance);
+        writeToLog("GIVE CHANGE", previousBalance, balance);
 
         return changeToDispense;
     }
-    //TODO write to log
+
     public void purchaseItem(){
 
+        if(!Item.itemLocation.containsKey("keyScanner")){
+            System.out.println("Invalid product code.");
+        }
+        if(!(Item.itemStock.get("keyScanner") > 0)) {
+            System.out.println("Product is sold out.");
+        }
+        if(balance.compareTo(Item.itemPrice.get("keyScanner")) < 0) {
+            System.out.println("Insufficient funds.");
+        }
+
+        previousBalance = balance;
+        balance = balance.subtract(Item.itemPrice.get("keyScanner"));
+        System.out.println("Vending machine dispensed: " + Item.itemName.get("keyScanner"));
+        System.out.println("The item cost: $" + Item.itemPrice.get("keyScanner"));
+        System.out.println("Your remaining balance is: $" + balance);
+        Item.getProductMessage(Item.itemType.get("keyScanner"));
+
+        writeToLog(Item.itemName.get("keyScanner") + " " + Item.itemLocation.get("keyScanner"), previousBalance, balance);
+
     }
+
 
     public void writeToLog(String transaction, BigDecimal previousBalance, BigDecimal balance){
 

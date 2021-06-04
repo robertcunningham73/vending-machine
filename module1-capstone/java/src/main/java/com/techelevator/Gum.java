@@ -1,8 +1,8 @@
 package com.techelevator;
 
-public class Gum {
+public class Gum extends Item{
 
-    public void getProductMessage() {
+    public static void getProductMessage() {
         System.out.println("Chew Chew, Yum!");
     }
 }
