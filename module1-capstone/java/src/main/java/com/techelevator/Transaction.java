@@ -15,7 +15,7 @@ public class Transaction {
 
     //instance variables
 
-    private BigDecimal balance = new BigDecimal("0.00");
+    private static BigDecimal balance = new BigDecimal("0.00");
     private BigDecimal quarter = new BigDecimal("0.25");
     private BigDecimal dime = new BigDecimal("0.10");
     private BigDecimal nickel = new BigDecimal(".05");
@@ -30,7 +30,7 @@ public class Transaction {
     //getters
 
 
-    public BigDecimal getBalance() {
+    public static BigDecimal getBalance() {
         return balance;
     }
 
@@ -38,16 +38,19 @@ public class Transaction {
         this.balance = balance;
     }*/
 
+    public static void setBalance(BigDecimal balance) {
+        Transaction.balance = balance; }
+
     //methods
 
-    public void userDeposit(){
-        Scanner userDepositScanner = new Scanner(System.in);
-        String userDepositString = userDepositScanner.nextLine();
+    public static void userDeposit(){
+        //Scanner userDepositScanner = new Scanner(System.in);
+        //String userDepositString = userDepositScanner.nextLine();
         //userMoney = Integer.parseInt(userDepositString);
-        BigDecimal userMoney = new BigDecimal(userDepositString);
+        //BigDecimal userMoney = new BigDecimal(VendingMachineCLI.userDepositString);
         //balance += userMoney;
-        balance = balance.add(userMoney);
-        writeToLog("FEED MONEY", userMoney, balance);
+        //balance = balance.add(userMoney);
+        writeToLog("FEED MONEY", VendingMachineCLI.userDepositInput, balance);
 
     }
 
@@ -159,14 +162,14 @@ public class Transaction {
     }
 
 
-    public void writeToLog(String transaction, BigDecimal previousBalance, BigDecimal balance){
+    public static void writeToLog(String transaction, BigDecimal previousBalance, BigDecimal balance){
 
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
         LocalDateTime dateTime = LocalDateTime.now();
 
         try(PrintWriter audit = new PrintWriter(new FileOutputStream(new File("Log.txt"), true))) {
 
-            audit.println(dateTimeFormat.format(dateTime) + " " + transaction + " \\" + previousBalance + " \\" + balance);
+            audit.println(dateTimeFormat.format(dateTime) + " " + transaction + " \\$" + previousBalance + " \\$" + balance);
 
         } catch(FileNotFoundException fnfE) {
             System.out.println("File not found.");
