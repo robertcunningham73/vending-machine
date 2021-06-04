@@ -19,11 +19,11 @@ public class Item {
     public static Map<String, BigDecimal> itemPrice = new HashMap<>();
     public static Map<String, String> itemType = new HashMap<>();
     public static Map<String, Integer> itemStock = new HashMap<String, Integer>();
-    public static int itemQuantity = 0;
+    public static int itemQuantity = 5;
 
-    public String[] itemArray = new String[4];
+    public static String[] itemArray = new String[4];
 
-    public void scanFile() {
+    public static void scanFile() {
         try (Scanner inventoryScanner = new Scanner(inventoryFile)) {
             while (inventoryScanner.hasNextLine()) {
                 String itemLine = inventoryScanner.nextLine();

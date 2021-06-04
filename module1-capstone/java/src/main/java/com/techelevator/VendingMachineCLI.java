@@ -18,7 +18,7 @@ public class VendingMachineCLI {
 	private static final String PURCHASE_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
 	private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT, PURCHASE_MENU_OPTION_FINISH_TRANSACTION };
 
-	private Menu menu;
+	private static Menu menu;
 	private Object Scanner;
 
 	public VendingMachineCLI(Menu menu) {
@@ -46,8 +46,9 @@ public class VendingMachineCLI {
 
 	public static String userDepositString = "";
 	public static BigDecimal userDepositInput;
+	public static String userSelection = "";
 
-	public void displayPurchaseMenuOptions() {
+	public static void displayPurchaseMenuOptions() {
 
 		System.out.println("\nCurrent Money Provided: \\$" + Transaction.getBalance());
 
@@ -66,17 +67,37 @@ public class VendingMachineCLI {
 			Transaction.userDeposit();
 			displayPurchaseMenuOptions();
 		} else if(choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
+			try{
+				System.out.println();
+				 displayVendingMachineOptions();
+				System.out.println();
+			}
+			catch(FileNotFoundException e){
+				System.out.println("File Not Found!");
+			}
+
+			Scanner userPurchaseScanner = new Scanner(System.in);
+
+			System.out.println("Please enter item slot location: ");
+
+			userSelection = userPurchaseScanner.nextLine();
+			Transaction.purchaseItem();
+
 
 		}
 	}
 
 	//TODO figure out remaining inventory
-	public void displayVendingMachineOptions() throws FileNotFoundException {
+	public static void displayVendingMachineOptions() throws FileNotFoundException {
 		File inventoryFile = new File("vendingmachine.csv");
 		try (java.util.Scanner inventoryScanner = new Scanner(inventoryFile)) {
 			while (inventoryScanner.hasNextLine()) {
 				String lineToSearch = inventoryScanner.nextLine();
-				System.out.println(lineToSearch + "|" + Item.itemQuantity);
+				if (Item.itemQuantity == 0) {
+					System.out.println(lineToSearch + "|" + "SOLD OUT");
+				} else {
+					System.out.println(lineToSearch + "|" + Item.itemQuantity);
+				}
 			}
 		}
 	}
@@ -84,8 +105,8 @@ public class VendingMachineCLI {
 	public static void main(String[] args) throws FileNotFoundException  {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
-
-		Item.itemQuantity = 5; //restocks to item quantity to 5
+		Item.scanFile();
+		//Item.itemQuantity = 5; //restocks to item quantity to 5
 
 		cli.run();
 

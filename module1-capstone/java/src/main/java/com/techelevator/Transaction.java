@@ -9,6 +9,7 @@ import java.math.RoundingMode;
 import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Transaction {
@@ -24,7 +25,7 @@ public class Transaction {
     //public BigDecimal userMoney;
 
     private String transaction = "";
-    private BigDecimal previousBalance;
+    private static BigDecimal previousBalance;
 
 
     //getters
@@ -123,43 +124,48 @@ public class Transaction {
         return changeToDispense;
     }
 
-    public void purchaseItem() {
-        //TODO put vvv in Scanner
-        String userSelection = "";
-        if (!Item.itemLocation.containsKey(userSelection)) {
+    public static void purchaseItem() {
+
+        if (!Item.itemLocation.containsKey(VendingMachineCLI.userSelection)) {
             System.out.println("Invalid product code.");
+            VendingMachineCLI.displayPurchaseMenuOptions();
+
         }
-        if (!(Item.itemStock.get(userSelection) > 0)) {
+        if ((Item.itemStock.get(VendingMachineCLI.userSelection) == 0)) {
             System.out.println("Product is sold out.");
+            VendingMachineCLI.displayPurchaseMenuOptions();
         }
-        if (balance.compareTo(Item.itemPrice.get(userSelection)) < 0) {
+        if (balance.compareTo(Item.itemPrice.get(VendingMachineCLI.userSelection)) < 0) {
             System.out.println("Insufficient funds.");
+            VendingMachineCLI.displayPurchaseMenuOptions();
         }
 
         //If balance >= price
         previousBalance = balance;
-        balance = balance.subtract(Item.itemPrice.get(userSelection));
-        Item.itemStock.replace(userSelection, Item.itemStock.get(userSelection) - 1);
-        System.out.println("Vending machine dispensed: " + Item.itemName.get(userSelection));
-        System.out.println("The item cost: $" + Item.itemPrice.get(userSelection));
+        balance = balance.subtract(Item.itemPrice.get(VendingMachineCLI.userSelection));
+        Item.itemStock.replace(VendingMachineCLI.userSelection, Item.itemStock.get(VendingMachineCLI.userSelection) - 1);
+        //System.out.println(Item.itemStock.get("A1"));
+        System.out.println("Vending machine dispensed: " + Item.itemName.get(VendingMachineCLI.userSelection));
+        System.out.println("The item cost: $" + Item.itemPrice.get(VendingMachineCLI.userSelection));
         System.out.println("Your remaining balance is: $" + balance);
-        //Item.getProductMessage(Item.itemType.get(userSelection));
 
-        if (Item.itemType.get(userSelection).equals("Chip")) {
+        if (Item.itemType.get(VendingMachineCLI.userSelection).equals("Chip")) {
             System.out.println("Crunch Crunch, Yum!");
         }
-        if (Item.itemType.get(userSelection).equals("Drink")) {
+        if (Item.itemType.get(VendingMachineCLI.userSelection).equals("Drink")) {
             System.out.println("Glug Glug, Yum!");
         }
-        if (Item.itemType.get(userSelection).equals("Candy")) {
+        if (Item.itemType.get(VendingMachineCLI.userSelection).equals("Candy")) {
             System.out.println("Munch Munch, Yum!");
         }
-        if (Item.itemType.get(userSelection).equals("Gum")) {
+        if (Item.itemType.get(VendingMachineCLI.userSelection).equals("Gum")) {
             System.out.println("Chew Chew, Yum!");
         }
 
-        writeToLog(Item.itemName.get(userSelection) + " " + Item.itemLocation.get(userSelection), previousBalance, balance);
+        writeToLog(Item.itemName.get(VendingMachineCLI.userSelection) + " " + Item.itemLocation.get(VendingMachineCLI.userSelection), previousBalance, balance);
+        VendingMachineCLI.displayPurchaseMenuOptions();
     }
+
 
 
     public static void writeToLog(String transaction, BigDecimal previousBalance, BigDecimal balance){
