@@ -19,8 +19,9 @@ public class Item {
     public static Map<String, BigDecimal> itemPrice = new HashMap<>();
     public static Map<String, String> itemType = new HashMap<>();
     public static Map<String, Integer> itemStock = new HashMap<String, Integer>();
+    public static int itemQuantity = 0;
 
-    public String [] itemArray = new String[4];
+    public String[] itemArray = new String[4];
 
     public void scanFile() {
         try (Scanner inventoryScanner = new Scanner(inventoryFile)) {
@@ -31,14 +32,10 @@ public class Item {
                 itemName.put(itemArray[0], itemArray[1]);
                 itemPrice.put(itemArray[0], new BigDecimal(itemArray[2]));
                 itemType.put(itemArray[0], itemArray[3]);
-                itemStock.put(itemArray[0], 5);
+                itemStock.put(itemArray[0], itemQuantity);
             }
         } catch (FileNotFoundException fnfE) {
             System.out.println("File not found.");
         }
-    }
-
-    public static void getProductMessage(String keyScanner) {
-
     }
 }

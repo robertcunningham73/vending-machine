@@ -40,7 +40,6 @@ public class Transaction {
 
     //methods
 
-    //TODO write to log
     public void userDeposit(){
         Scanner userDepositScanner = new Scanner(System.in);
         String userDepositString = userDepositScanner.nextLine();
@@ -48,10 +47,10 @@ public class Transaction {
         BigDecimal userMoney = new BigDecimal(userDepositString);
         //balance += userMoney;
         balance = balance.add(userMoney);
+        writeToLog("FEED MONEY", userMoney, balance);
 
     }
 
-    //TODO write to log
     public String dispenseChange(BigDecimal userMoney) {
 
         previousBalance = balance;
@@ -121,27 +120,42 @@ public class Transaction {
         return changeToDispense;
     }
 
-    public void purchaseItem(){
-
-        if(!Item.itemLocation.containsKey("keyScanner")){
+    public void purchaseItem() {
+        //TODO put vvv in Scanner
+        String userSelection = "";
+        if (!Item.itemLocation.containsKey(userSelection)) {
             System.out.println("Invalid product code.");
         }
-        if(!(Item.itemStock.get("keyScanner") > 0)) {
+        if (!(Item.itemStock.get(userSelection) > 0)) {
             System.out.println("Product is sold out.");
         }
-        if(balance.compareTo(Item.itemPrice.get("keyScanner")) < 0) {
+        if (balance.compareTo(Item.itemPrice.get(userSelection)) < 0) {
             System.out.println("Insufficient funds.");
         }
 
+        //If balance >= price
         previousBalance = balance;
-        balance = balance.subtract(Item.itemPrice.get("keyScanner"));
-        System.out.println("Vending machine dispensed: " + Item.itemName.get("keyScanner"));
-        System.out.println("The item cost: $" + Item.itemPrice.get("keyScanner"));
+        balance = balance.subtract(Item.itemPrice.get(userSelection));
+        Item.itemStock.replace(userSelection, Item.itemStock.get(userSelection) - 1);
+        System.out.println("Vending machine dispensed: " + Item.itemName.get(userSelection));
+        System.out.println("The item cost: $" + Item.itemPrice.get(userSelection));
         System.out.println("Your remaining balance is: $" + balance);
-        Item.getProductMessage(Item.itemType.get("keyScanner"));
+        //Item.getProductMessage(Item.itemType.get(userSelection));
 
-        writeToLog(Item.itemName.get("keyScanner") + " " + Item.itemLocation.get("keyScanner"), previousBalance, balance);
+        if (Item.itemType.get(userSelection).equals("Chip")) {
+            System.out.println("Crunch Crunch, Yum!");
+        }
+        if (Item.itemType.get(userSelection).equals("Drink")) {
+            System.out.println("Glug Glug, Yum!");
+        }
+        if (Item.itemType.get(userSelection).equals("Candy")) {
+            System.out.println("Munch Munch, Yum!");
+        }
+        if (Item.itemType.get(userSelection).equals("Gum")) {
+            System.out.println("Chew Chew, Yum!");
+        }
 
+        writeToLog(Item.itemName.get(userSelection) + " " + Item.itemLocation.get(userSelection), previousBalance, balance);
     }
 
 
