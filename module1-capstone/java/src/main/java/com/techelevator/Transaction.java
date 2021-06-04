@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -14,6 +15,10 @@ public class Transaction {
     //instance variables
 
     private BigDecimal balance = new BigDecimal("0.00");
+    private BigDecimal quarter = new BigDecimal("0.25");
+    private BigDecimal dime = new BigDecimal("0.10");
+    private BigDecimal nickel = new BigDecimal(".05");
+    private BigDecimal zero = new BigDecimal("0.00");
 
     //public BigDecimal userMoney;
 
@@ -54,7 +59,22 @@ public class Transaction {
         int dimeCount = 0;
         int nickelCount = 0;
 
-        while (balance < userMoney) {
+        while (balance.subtract(userMoney).compareTo(zero) < 0) {
+            if ((userMoney.divide(quarter, 2, RoundingMode.CEILING).compareTo(zero) > 0 ) && balance.add(quarter).compareTo(userMoney) <= 0) {
+                balance = balance.add(quarter);
+                quarterCount += 1;
+            }
+            else if (userMoney.divide(dime, 2, RoundingMode.CEILING).compareTo(zero)  > 0 && balance.add(dime).compareTo(userMoney) <= 0) {
+                balance = balance.add(dime);
+                dimeCount += 1;
+            }
+            else if (userMoney.divide(nickel, 2, RoundingMode.CEILING).compareTo(zero) > 0 && balance.add(nickel).compareTo(userMoney) <= 0) {
+                balance = balance.add(nickel);
+                nickelCount += 1;
+            }
+
+      //before switching to BigDecimal
+      /*  while (balance < userMoney) {
             if (userMoney / 25 > 0 && balance + 25 <= userMoney) {
                 balance += 25;
                 quarterCount += 1;
@@ -66,7 +86,7 @@ public class Transaction {
             else if (userMoney / 5 > 0 && balance + 5 <= userMoney) {
                 balance += 5;
                 nickelCount += 1;
-            }
+            }*/
         }
 
         String changeToDispense = "";

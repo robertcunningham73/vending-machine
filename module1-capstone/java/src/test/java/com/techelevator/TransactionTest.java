@@ -3,6 +3,8 @@ package com.techelevator;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 public class TransactionTest {
 
     @Test
@@ -10,7 +12,7 @@ public class TransactionTest {
         Transaction change = new Transaction();
         String expected = "";
 
-        String result = change.dispenseChange(140);
+        String result = change.dispenseChange(BigDecimal.valueOf(5.15));
 
         Assert.assertEquals(expected, result);
     }

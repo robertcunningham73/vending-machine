@@ -35,7 +35,4 @@ public class Item {
             System.out.println("File not found.");
         }
     }
-
-
-    //split inventory into subclasses
 }
