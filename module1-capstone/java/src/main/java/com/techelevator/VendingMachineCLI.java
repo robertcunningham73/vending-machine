@@ -91,7 +91,7 @@ public class VendingMachineCLI {
 			Transaction.purchaseItem();
 		}
 		else if(choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
-			Transaction.dispenseChange(Transaction.getBalance());
+			Transaction.dispenseChange();
 			try {
 				Menu menu = new Menu(System.in, System.out);
 				VendingMachineCLI cli = new VendingMachineCLI(menu);

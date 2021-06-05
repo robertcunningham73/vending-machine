@@ -54,25 +54,26 @@ public class Transaction {
 
     }
 
-    public static String dispenseChange(BigDecimal userMoney) {
+    public static String dispenseChange() {
 
         previousBalance = balance;
+
         BigDecimal sum = new BigDecimal("0.00");
 
         int quarterCount = 0;
         int dimeCount = 0;
         int nickelCount = 0;
 
-        while (balance.subtract(sum).compareTo(zero) < 0) {
-            if ((userMoney.divide(quarter, 2, RoundingMode.CEILING).compareTo(zero) > 0 ) && sum.add(quarter).compareTo(balance) <= 0) {
+        while (sum.compareTo(balance) < 0) {
+            if ((balance.divide(quarter, 2, RoundingMode.CEILING).compareTo(zero) > 0 ) && sum.add(quarter).compareTo(balance) <= 0) {
                 sum = sum.add(quarter);
                 quarterCount += 1;
             }
-            else if (userMoney.divide(dime, 2, RoundingMode.CEILING).compareTo(zero)  > 0 && sum.add(dime).compareTo(balance) <= 0) {
+            else if (balance.divide(dime, 2, RoundingMode.CEILING).compareTo(zero)  > 0 && sum.add(dime).compareTo(balance) <= 0) {
                 sum = sum.add(dime);
                 dimeCount += 1;
             }
-            else if (userMoney.divide(nickel, 2, RoundingMode.CEILING).compareTo(zero) > 0 && sum.add(nickel).compareTo(balance) <= 0) {
+            else if (balance.divide(nickel, 2, RoundingMode.CEILING).compareTo(zero) > 0 && sum.add(nickel).compareTo(balance) <= 0) {
                 sum = sum.add(nickel);
                 nickelCount += 1;
             }
@@ -102,7 +103,7 @@ public class Transaction {
             changeToDispense += "1 nickel";
         }
 
-        System.out.println("Change dispensed: " + quarterCount);
+        System.out.println("Change dispensed: " + changeToDispense);
         balance = balance.valueOf(0);
         writeToLog("GIVE CHANGE", previousBalance, balance);
 
