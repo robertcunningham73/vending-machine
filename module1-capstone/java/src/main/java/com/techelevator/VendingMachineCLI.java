@@ -52,7 +52,7 @@ public class VendingMachineCLI {
 
 	public static void displayPurchaseMenuOptions() {
 
-		System.out.println("\nCurrent Money Provided: \\$" + Transaction.getBalance());
+		System.out.println("\nCurrent Money Provided: $" + Transaction.getBalance());
 
 		String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
@@ -60,10 +60,15 @@ public class VendingMachineCLI {
 			Scanner userDepositScanner = new Scanner(System.in);
 
 			System.out.println("\n***This machine only accepts $1.00, $2.00, $5.00, and $10.00 bills***");
-			System.out.print("Please enter money: ");
+			System.out.print("Please enter money in proper format (ex. 1.00): ");
 
 			userDepositString = userDepositScanner.nextLine();
 			userDepositInput = new BigDecimal(userDepositString);
+
+			if (!(userDepositString.equals("1.00") || userDepositString.equals("2.00") || userDepositString.equals("5.00") || userDepositString.equals("10.00"))){
+				System.out.println("***Enter valid amount in proper format (ex. 1.00)***");
+				displayPurchaseMenuOptions();
+			}
 
 			Transaction.setBalance(userDepositInput.add(Transaction.getBalance()));
 			Transaction.userDeposit();
@@ -80,10 +85,23 @@ public class VendingMachineCLI {
 
 			Scanner userPurchaseScanner = new Scanner(System.in);
 
-			System.out.println("Please enter item slot location: ");
+			System.out.print("Please enter item slot location (ex. A1): ");
 
 			userSelection = userPurchaseScanner.nextLine();
 			Transaction.purchaseItem();
+		}
+		else if(choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
+			Transaction.dispenseChange(Transaction.getBalance());
+			try {
+				Menu menu = new Menu(System.in, System.out);
+				VendingMachineCLI cli = new VendingMachineCLI(menu);
+				cli.run();
+			} catch(FileNotFoundException fnfEx) {
+				System.out.println("No file found");
+			}
+
+
+
 		}
 	}
 
