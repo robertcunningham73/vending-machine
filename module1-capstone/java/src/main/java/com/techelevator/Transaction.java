@@ -43,16 +43,16 @@ public class Transaction {
 
     //methods
 
-    public static void userDeposit(){
+    /*public static void userDeposit(){
         //Scanner userDepositScanner = new Scanner(System.in);
         //String userDepositString = userDepositScanner.nextLine();
         //userMoney = Integer.parseInt(userDepositString);
         //BigDecimal userMoney = new BigDecimal(VendingMachineCLI.userDepositString);
         //balance += userMoney;
         //balance = balance.add(userMoney);
-        writeToLog("FEED MONEY", VendingMachineCLI.userDepositInput, balance);
+        //writeToLog("FEED MONEY", VendingMachineCLI.userDepositInput, balance);
 
-    }
+    }*/
 
     public static String dispenseChange() {
 
@@ -103,8 +103,13 @@ public class Transaction {
             changeToDispense += "1 nickel";
         }
 
-        System.out.println("Change dispensed: " + changeToDispense);
-        balance = balance.valueOf(0);
+        if(balance.compareTo(zero) == 0) {
+            System.out.println("***No change to dispense***");
+        } else {
+            System.out.println("Change dispensed: " + changeToDispense);
+            balance = new BigDecimal("0.00");
+        }
+
         writeToLog("GIVE CHANGE", previousBalance, balance);
 
         return changeToDispense;

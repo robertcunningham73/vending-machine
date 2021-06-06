@@ -7,13 +7,70 @@ import java.math.BigDecimal;
 
 public class TransactionTest {
 
-    /*@Test
-    public void dispenseChange_validValues() {
-        Transaction change = new Transaction();
-        String expected = "";
 
-        String result = change.dispenseChange(BigDecimal.valueOf(5.15));
+    @Test
+    public void Transaction_setBalance_validValue() { //tests get and set
+        Transaction trans = new Transaction();
+        Transaction.setBalance(new BigDecimal("7.75"));
+        BigDecimal expected = new BigDecimal("7.75");
+
+        BigDecimal result = Transaction.getBalance();
 
         Assert.assertEquals(expected, result);
-    }*/
+    }
+
+    @Test
+    public void Transaction_getBalance_negativeValue() { //tests get and set
+        Transaction transTest = new Transaction();
+        BigDecimal expected = new BigDecimal("-1.00");
+        Transaction.setBalance(new BigDecimal("-1.00"));
+
+        BigDecimal result = Transaction.getBalance();
+
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void Transaction_getBalance_nullValue() { //tests get and set
+        Transaction trans = new Transaction();
+        Transaction.setBalance(null);
+        BigDecimal expected = null;
+
+        BigDecimal result = Transaction.getBalance();
+
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void Transaction_dispenseChange_validValue() {
+        Transaction trans = new Transaction();
+        Transaction.setBalance(new BigDecimal("3.40"));
+        String expected = "13 quarters, 1 dime, 1 nickel";
+
+        String result = Transaction.dispenseChange();
+
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void Transaction_dispenseChange_zeroBalance() {
+        Transaction trans = new Transaction();
+        String expected = "";
+
+        String result = Transaction.dispenseChange();
+
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void Transaction_dispenseChange_balanceResetAfterChangeGiven() {
+        Transaction trans = new Transaction();
+        Transaction.setBalance(new BigDecimal("3.40"));
+        BigDecimal expected = new BigDecimal("0.00");
+
+        Transaction.dispenseChange();
+        BigDecimal result = Transaction.getBalance();
+
+        Assert.assertEquals(expected, result);
+    }
 }

@@ -32,6 +32,7 @@ public class VendingMachineCLI {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
+				System.out.println();
 				displayVendingMachineOptions();
 				System.out.println();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
@@ -71,7 +72,7 @@ public class VendingMachineCLI {
 			}
 
 			Transaction.setBalance(userDepositInput.add(Transaction.getBalance()));
-			Transaction.userDeposit();
+			Transaction.writeToLog("FEED MONEY", VendingMachineCLI.userDepositInput, Transaction.getBalance());
 			displayPurchaseMenuOptions();
 		} else if(choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 			try{
@@ -88,6 +89,7 @@ public class VendingMachineCLI {
 			System.out.print("Please enter item slot location (ex. A1): ");
 
 			userSelection = userPurchaseScanner.nextLine();
+			System.out.println();
 			Transaction.purchaseItem();
 		}
 		else if(choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
@@ -99,9 +101,6 @@ public class VendingMachineCLI {
 			} catch(FileNotFoundException fnfEx) {
 				System.out.println("No file found");
 			}
-
-
-
 		}
 	}
 
@@ -111,12 +110,16 @@ public class VendingMachineCLI {
 		try (java.util.Scanner inventoryScanner = new Scanner(inventoryFile)) {
 			while (inventoryScanner.hasNextLine()) {
 				String lineToSearch = inventoryScanner.nextLine();
-				if (Item.itemQuantity == 0) {
+				/*if (Item.itemQuantity == 0) {
 					System.out.println(lineToSearch + "|" + "SOLD OUT");
-				} else {
+				} else {*/
 					//System.out.println(lineToSearch + "|" + Item.itemQuantity);
 				  String codeToSearch = lineToSearch.substring(0, 2);
-				  System.out.println(lineToSearch + "|" + Item.itemStock.get(codeToSearch));
+
+				  if(Item.itemStock.get(codeToSearch) == 0 ) {
+					System.out.println(lineToSearch + "|" + "SOLD OUT");
+				  } else {
+				  	System.out.println(lineToSearch + "|" + Item.itemStock.get(codeToSearch));
 				}
 			}
 		}
