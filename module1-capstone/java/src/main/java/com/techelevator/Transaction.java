@@ -21,38 +21,22 @@ public class Transaction {
     private static BigDecimal nickel = new BigDecimal(".05");
     private static BigDecimal zero = new BigDecimal("0.00");
 
-    //public BigDecimal userMoney;
-
     private String transaction = "";
     private static BigDecimal previousBalance;
 
 
-    //getters
+    //getters and setters
 
 
     public static BigDecimal getBalance() {
         return balance;
     }
 
-    /*public void setBalance(int balance) {
-        this.balance = balance;
-    }*/
-
     public static void setBalance(BigDecimal balance) {
         Transaction.balance = balance; }
 
     //methods
 
-    /*public static void userDeposit(){
-        //Scanner userDepositScanner = new Scanner(System.in);
-        //String userDepositString = userDepositScanner.nextLine();
-        //userMoney = Integer.parseInt(userDepositString);
-        //BigDecimal userMoney = new BigDecimal(VendingMachineCLI.userDepositString);
-        //balance += userMoney;
-        //balance = balance.add(userMoney);
-        //writeToLog("FEED MONEY", VendingMachineCLI.userDepositInput, balance);
-
-    }*/
 
     public static String dispenseChange() {
 
@@ -118,24 +102,22 @@ public class Transaction {
     public static void purchaseItem() {
 
         if (!Item.itemLocation.containsKey(VendingMachineCLI.userSelection)) {
-            System.out.println("Invalid product code.");
+            System.out.println("***Invalid product code, please select valid code***");
             VendingMachineCLI.displayPurchaseMenuOptions();
 
         }
         if ((Item.itemStock.get(VendingMachineCLI.userSelection) == 0)) {
-            System.out.println("Product is sold out.");
+            System.out.println("***Product is sold out, please make another selection***");
             VendingMachineCLI.displayPurchaseMenuOptions();
         }
         if (balance.compareTo(Item.itemPrice.get(VendingMachineCLI.userSelection)) < 0) {
-            System.out.println("Insufficient funds.");
+            System.out.println("***Insufficient funds, please add money***");
             VendingMachineCLI.displayPurchaseMenuOptions();
         }
 
-        //If balance >= price
         previousBalance = balance;
         balance = balance.subtract(Item.itemPrice.get(VendingMachineCLI.userSelection));
         Item.itemStock.replace(VendingMachineCLI.userSelection, Item.itemStock.get(VendingMachineCLI.userSelection) - 1);
-        //System.out.println(Item.itemStock.get("A1"));
         System.out.println("Vending machine dispensed: " + Item.itemName.get(VendingMachineCLI.userSelection));
         System.out.println("The item cost: $" + Item.itemPrice.get(VendingMachineCLI.userSelection));
         System.out.println("Your remaining balance is: $" + balance);

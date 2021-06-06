@@ -9,9 +9,6 @@ import java.util.Scanner;
 
 public class Item {
 
-
-    //scan inventory sheet
-
     private static File inventoryFile = new File("vendingmachine.csv");
 
     public static Map<String, String> itemLocation = new HashMap<>();

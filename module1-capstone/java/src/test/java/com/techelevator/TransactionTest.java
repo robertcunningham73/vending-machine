@@ -1,11 +1,17 @@
 package com.techelevator;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 
 public class TransactionTest {
+
+    @Before
+    public void setup(){
+        Item.scanFile();
+    }
 
 
     @Test
@@ -73,4 +79,16 @@ public class TransactionTest {
 
         Assert.assertEquals(expected, result);
     }
+/*    @Test
+    public void Transaction_purchaseItem_correctlyAffectsBalance() {
+        Transaction trans = new Transaction();
+        Transaction.setBalance(new BigDecimal("2.00"));
+
+        VendingMachineCLI.userSelection = "D4";
+        Transaction.purchaseItem();
+
+        Assert.assertEquals(Transaction.getBalance(), new BigDecimal("1.25"));
+    }*/
+
+
 }

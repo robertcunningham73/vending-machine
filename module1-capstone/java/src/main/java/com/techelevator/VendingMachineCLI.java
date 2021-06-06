@@ -32,7 +32,7 @@ public class VendingMachineCLI {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				System.out.println();
+				System.out.println("\n*****Current Stock*****\n");
 				displayVendingMachineOptions();
 				System.out.println();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
@@ -74,9 +74,10 @@ public class VendingMachineCLI {
 			Transaction.setBalance(userDepositInput.add(Transaction.getBalance()));
 			Transaction.writeToLog("FEED MONEY", VendingMachineCLI.userDepositInput, Transaction.getBalance());
 			displayPurchaseMenuOptions();
+
 		} else if(choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 			try{
-				System.out.println();
+				System.out.println("\n*****Current Stock*****\n");
 				 displayVendingMachineOptions();
 				System.out.println();
 			}
@@ -104,17 +105,12 @@ public class VendingMachineCLI {
 		}
 	}
 
-	//TODO figure out remaining inventory
 	public static void displayVendingMachineOptions() throws FileNotFoundException {
 		File inventoryFile = new File("vendingmachine.csv");
 		try (java.util.Scanner inventoryScanner = new Scanner(inventoryFile)) {
 			while (inventoryScanner.hasNextLine()) {
 				String lineToSearch = inventoryScanner.nextLine();
-				/*if (Item.itemQuantity == 0) {
-					System.out.println(lineToSearch + "|" + "SOLD OUT");
-				} else {*/
-					//System.out.println(lineToSearch + "|" + Item.itemQuantity);
-				  String codeToSearch = lineToSearch.substring(0, 2);
+				String codeToSearch = lineToSearch.substring(0, 2);
 
 				  if(Item.itemStock.get(codeToSearch) == 0 ) {
 					System.out.println(lineToSearch + "|" + "SOLD OUT");
@@ -126,14 +122,12 @@ public class VendingMachineCLI {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException  {
+		System.out.println();
+		System.out.println("*****Vendo-Matic 800*****");
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		Item.scanFile();
-		//Item.itemQuantity = 5; //restocks to item quantity to 5
 
 		cli.run();
-
-		//TODO Item.scanFile();
-		//TODO System.out.println(Item.itemLocation.get("A1"));
 	}
 }
